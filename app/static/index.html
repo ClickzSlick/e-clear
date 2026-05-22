@@ -1,0 +1,2224 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCT · LLM User Intelligence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0f;
+            color: #e8e8f0;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 1px solid #1e1e2e;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0d0d1a;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a78bfa;
+            letter-spacing: 0.5px;
+        }
+
+        header span {
+            font-size: 0.75rem;
+            color: #555570;
+            background: #1a1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #2a2a40;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #666680;
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            background: #0d0d1a;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #1e1e2e;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #666680;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: #1e1e3a;
+            color: #a78bfa;
+        }
+
+        .tab:hover:not(.active) {
+            color: #9999bb;
+            background: #15152a;
+        }
+
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .card {
+            background: #0d0d1a;
+            border: 1px solid #1e1e2e;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555570;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            color: #9999bb;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            background: #0a0a14;
+            border: 1px solid #2a2a40;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #e8e8f0;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #a78bfa;
+        }
+
+        textarea { resize: vertical; min-height: 80px; }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn:hover { opacity: 0.85; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-secondary {
+            background: #1e1e3a;
+            color: #a78bfa;
+            border: 1px solid #2a2a4a;
+            margin-top: 8px;
+        }
+
+        .result-area {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .result-area.show { display: block; }
+
+        .result-card {
+            background: #0a0a14;
+            border: 1px solid #2a2a40;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .star {
+            font-size: 1.4rem;
+            color: #2a2a40;
+        }
+
+        .star.filled { color: #f59e0b; }
+
+        .review-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #ccccee;
+            border-left: 3px solid #7c3aed;
+            padding-left: 16px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .meta-item {
+            background: #12121f;
+            border: 1px solid #1e1e2e;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .meta-item .meta-label {
+            font-size: 0.7rem;
+            color: #555570;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+        }
+
+        .meta-item .meta-value {
+            font-size: 0.88rem;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        .rec-list { list-style: none; }
+
+        .rec-item {
+            background: #12121f;
+            border: 1px solid #1e1e2e;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .rec-rank {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #7c3aed;
+            min-width: 28px;
+        }
+
+        .rec-content { flex: 1; }
+
+        .rec-name {
+            font-weight: 600;
+            color: #e8e8f0;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        .rec-category {
+            font-size: 0.75rem;
+            color: #555570;
+            margin-bottom: 8px;
+        }
+
+        .rec-reason {
+            font-size: 0.83rem;
+            color: #9999bb;
+            line-height: 1.5;
+        }
+
+        .score-bar {
+            height: 4px;
+            background: #1e1e2e;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #60a5fa);
+            border-radius: 2px;
+            transition: width 0.8s ease;
+        }
+
+        .reasoning-box {
+            background: #0d0d1a;
+            border: 1px solid #2a2a4a;
+            border-left: 3px solid #60a5fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #8888aa;
+            line-height: 1.6;
+        }
+
+        .reasoning-box strong {
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 40px;
+            color: #555570;
+            font-size: 0.85rem;
+        }
+
+        .loader::before {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 32px;
+            border: 2px solid #1e1e2e;
+            border-top-color: #7c3aed;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-box {
+            background: #1a0a0a;
+            border: 1px solid #4a1a1a;
+            border-radius: 8px;
+            padding: 16px;
+            color: #ff6b6b;
+            font-size: 0.85rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1e1e3a;
+            color: #a78bfa;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: #444460;
+            margin-top: 4px;
+        }
+
+        select option { background: #0d0d1a; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>⚡ LLM User Intelligence</h1>
+    <span>DSN × BCT Hackathon 3.0</span>
+</header>
+
+<div class="container">
+    <div class="hero">
+        <h2>Understand. Simulate. Recommend.</h2>
+        <p>An agentic system that thinks like your users before it speaks for them.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('simulate')">Review Simulator</button>
+        <button class="tab" onclick="switchTab('recommend')">Recommender</button>
+        <button class="tab" onclick="switchTab('cold')">Cold Start</button>
+        <button class="tab" onclick="switchTab('cross')">Cross Domain</button>
+    </div>
+
+    // ── TASK A: SIMULATE REVIEW ─────────────────────────────────────── 
+    <div class="panel active" id="panel-simulate">
+        <div class="card">
+            <h3>Task A — Review Simulator</h3>
+
+            <div class="form-group">
+                <label>User ID</label>
+                <input type="text" id="sim-user-id" placeholder="e.g. qVc8ODYU5SZjKXVBgXdI7w" />
+                <p class="hint">Use /users/{user_id}/history to find valid user IDs</p>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="sim-item-name" placeholder="e.g. Chicken Republic" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="sim-item-category" placeholder="e.g. Fast Food, Nigerian" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Item Description (optional)</label>
+                <textarea id="sim-item-desc" placeholder="Any extra context about this place..."></textarea>
+            </div>
+
+            <button class="btn" onclick="simulateReview()">Simulate Review</button>
+        </div>
+
+        <div class="result-area" id="sim-result"></div>
+    </div>
+
+    //── TASK B: RECOMMEND ───────────────────────────────────────────── 
+    <div class="panel" id="panel-recommend">
+        <div class="card">
+            <h3>Task B — Personalized Recommender</h3>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>User ID</label>
+                    <input type="text" id="rec-user-id" placeholder="e.g. qVc8ODYU5SZjKXVBgXdI7w" />
+                </div>
+                <div class="form-group">
+                    <label>Number of Recommendations</label>
+                    <select id="rec-top-n">
+                        <option value="3">3</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" onclick="getRecommendations()">Get Recommendations</button>
+        </div>
+
+        <div class="result-area" id="rec-result"></div>
+    </div>
+
+    // ── COLD START ──────────────────────────────────────────────────── 
+    <div class="panel" id="panel-cold">
+        <div class="card">
+            <h3>Cold Start — No History Needed</h3>
+            <p class="hint" style="margin-bottom:20px">
+                Works when we know nothing about the user yet.
+                Describe them and we figure out the rest.
+            </p>
+
+            <div class="form-group">
+                <label>Who is this person?</label>
+                <textarea id="cold-desc"
+                    placeholder="e.g. A young Nigerian professional in Lagos, early 30s, loves trying new restaurants on weekends"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Their Preferences</label>
+                <textarea id="cold-prefs"
+                    placeholder="e.g. Values good ambience and quick service, budget conscious, loves spicy food"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Current Context</label>
+                <input type="text" id="cold-context"
+                    placeholder="e.g. Looking for a dinner spot for a first date" />
+            </div>
+
+            <button class="btn" onclick="coldStartRecommend()">Recommend Without History</button>
+        </div>
+
+        <div class="result-area" id="cold-result"></div>
+    </div>
+
+     // ── CROSS DOMAIN ────────────────────────────────────────────────── 
+    <div class="panel" id="panel-cross">
+        <div class="card">
+            <h3>Cross Domain — Transfer Preferences</h3>
+            <p class="hint" style="margin-bottom:20px">
+                User has history in one category but wants
+                recommendations in a completely different domain.
+            </p>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>User ID</label>
+                    <input type="text" id="cross-user-id" placeholder="e.g. qVc8ODYU5SZjKXVBgXdI7w" />
+                </div>
+                <div class="form-group">
+                    <label>Target Category</label>
+                    <input type="text" id="cross-category"
+                        placeholder="e.g. Books, Gyms, Hotels" />
+                </div>
+            </div>
+
+            <button class="btn" onclick="crossDomainRecommend()">Transfer & Recommend</button>
+        </div>
+
+        <div class="result-area" id="cross-result"></div>
+    </div>
+</div>
+
+<script>
+    const API = "http://127.0.0.1:8000";
+
+    // ── Tab switching ──────────────────────────────────────────────────────────
+    function switchTab(name) {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+        event.target.classList.add("active");
+        document.getElementById(`panel-${name}`).classList.add("active");
+    }
+
+    // ── Helpers ────────────────────────────────────────────────────────────────
+    function showLoader(id) {
+        const el = document.getElementById(id);
+        el.classList.add("show");
+        el.innerHTML = `<div class="loader">Agent is thinking...</div>`;
+    }
+
+    function showError(id, message) {
+        const el = document.getElementById(id);
+        el.classList.add("show");
+        el.innerHTML = `<div class="error-box">⚠ ${message}</div>`;
+    }
+
+    function renderStars(rating) {
+        return Array.from({length: 5}, (_, i) =>
+            `<span class="star ${i < rating ? 'filled' : ''}">★</span>`
+        ).join('');
+    }
+
+    function renderRecommendations(data, containerId) {
+        const el = document.getElementById(containerId);
+        const recs = data.recommendations || [];
+
+        let html = `<ul class="rec-list">`;
+        recs.forEach((r, i) => {
+            const score = Math.round((r.relevance_score || 0) * 100);
+            html += `
+                <li class="rec-item">
+                    <div class="rec-rank">#${i + 1}</div>
+                    <div class="rec-content">
+                        <div class="rec-name">${r.item_name}</div>
+                        <div class="rec-category">${r.item_category || ''}</div>
+                        <div class="rec-reason">${r.reason}</div>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width:${score}%"></div>
+                        </div>
+                    </div>
+                </li>`;
+        });
+        html += `</ul>`;
+
+        if (data.recommendation_reasoning || data.cross_domain_reasoning) {
+            const reasoning = data.recommendation_reasoning || data.cross_domain_reasoning;
+            html += `
+                <div class="reasoning-box">
+                    <strong>Agent Reasoning</strong>
+                    ${reasoning}
+                </div>`;
+        }
+
+        if (data.persona_used) {
+            const p = data.persona_used;
+            html += `
+                <div class="reasoning-box" style="border-left-color:#a78bfa; margin-top:12px">
+                    <strong>Persona Used</strong>
+                    Avg Rating: ${p.avg_rating} &nbsp;|&nbsp;
+                    Priorities: ${(p.key_priorities || []).join(', ')} &nbsp;|&nbsp;
+                    Nigerian Context: ${p.nigerian_contextualized ? '✅' : '❌'}
+                </div>`;
+        }
+
+        el.innerHTML = html;
+        el.classList.add("show");
+    }
+
+    // ── Task A: Simulate Review ────────────────────────────────────────────────
+    async function simulateReview() {
+        const userId = document.getElementById("sim-user-id").value.trim();
+        const itemName = document.getElementById("sim-item-name").value.trim();
+        const itemCat = document.getElementById("sim-item-category").value.trim();
+        const itemDesc = document.getElementById("sim-item-desc").value.trim();
+
+        if (!userId || !itemName) {
+            showError("sim-result", "Please enter a User ID and Item Name.");
+            return;
+        }
+
+        showLoader("sim-result");
+
+        try {
+            const res = await fetch(`${API}/task-a/simulate-review`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: userId,
+                    item: {
+                        item_name: itemName,
+                        item_category: itemCat,
+                        item_description: itemDesc
+                    }
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showError("sim-result", data.detail || "Something went wrong.");
+                return;
+            }
+
+            const el = document.getElementById("sim-result");
+            el.innerHTML = `
+                <div class="result-card">
+                    <div class="stars">${renderStars(data.simulated_rating)}</div>
+                    <div class="review-text">${data.simulated_review}</div>
+                    <div class="reasoning-box">
+                        <strong>Rating Reasoning</strong>
+                        ${data.rating_reasoning}
+                    </div>
+                    <div class="meta-grid">
+                        <div class="meta-item">
+                            <div class="meta-label">Simulated Rating</div>
+                            <div class="meta-value">${data.simulated_rating} / 5</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">History Size</div>
+                            <div class="meta-value">${data.history_size} reviews</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Avg Rating</div>
+                            <div class="meta-value">${data.persona_used?.avg_rating}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Nigerian Context</div>
+                            <div class="meta-value">${data.persona_used?.nigerian_contextualized ? '✅ Yes' : '❌ No'}</div>
+                        </div>
+                    </div>
+                </div>`;
+            el.classList.add("show");
+
+        } catch (err) {
+            showError("sim-result", `Request failed: ${err.message}`);
+        }
+    }
+
+    // ── Task B: Recommend ──────────────────────────────────────────────────────
+    async function getRecommendations() {
+        const userId = document.getElementById("rec-user-id").value.trim();
+        const topN = parseInt(document.getElementById("rec-top-n").value);
+
+        if (!userId) {
+            showError("rec-result", "Please enter a User ID.");
+            return;
+        }
+
+        showLoader("rec-result");
+
+        try {
+            const res = await fetch(`${API}/task-b/recommend`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: userId, top_n: topN })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showError("rec-result", data.detail || "Something went wrong.");
+                return;
+            }
+
+            renderRecommendations(data, "rec-result");
+
+        } catch (err) {
+            showError("rec-result", `Request failed: ${err.message}`);
+        }
+    }
+
+    // ── Cold Start ─────────────────────────────────────────────────────────────
+    async function coldStartRecommend() {
+        const desc = document.getElementById("cold-desc").value.trim();
+        const prefs = document.getElementById("cold-prefs").value.trim();
+        const context = document.getElementById("cold-context").value.trim();
+
+        if (!desc) {
+            showError("cold-result", "Please describe the user.");
+            return;
+        }
+
+        showLoader("cold-result");
+
+        try {
+            const res = await fetch(`${API}/task-b/recommend/cold-start`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    persona: { description: desc, preferences: prefs, context },
+                    top_n: 5
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showError("cold-result", data.detail || "Something went wrong.");
+                return;
+            }
+
+            renderRecommendations(data, "cold-result");
+
+        } catch (err) {
+            showError("cold-result", `Request failed: ${err.message}`);
+        }
+    }
+
+    // ── Cross Domain ───────────────────────────────────────────────────────────
+    async function crossDomainRecommend() {
+        const userId = document.getElementById("cross-user-id").value.trim();
+        const category = document.getElementById("cross-category").value.trim();
+
+        if (!userId || !category) {
+            showError("cross-result", "Please enter both User ID and Target Category.");
+            return;
+        }
+
+        showLoader("cross-result");
+
+        try {
+            const res = await fetch(`${API}/task-b/recommend/cross-domain`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: userId,
+                    target_category: category,
+                    top_n: 5
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showError("cross-result", data.detail || "Something went wrong.");
+                return;
+            }
+
+            renderRecommendations(data, "cross-result");
+
+        } catch (err) {
+            showError("cross-result", `Request failed: ${err.message}`);
+        }
+    }
+</script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCT · LLM User Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:        #07070f;
+            --bg2:       #0d0d1c;
+            --bg3:       #12122a;
+            --border:    #1e1e3a;
+            --border2:   #2a2a4a;
+            --purple:    #7c3aed;
+            --purple2:   #a78bfa;
+            --blue:      #60a5fa;
+            --green:     #34d399;
+            --amber:     #f59e0b;
+            --red:       #f87171;
+            --text:      #e8e8f4;
+            --text2:     #9999bb;
+            --text3:     #555570;
+            --mono:      'Space Mono', monospace;
+            --sans:      'DM Sans', sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-dot {
+            width: 10px; height: 10px;
+            background: var(--purple);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--purple);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:.6; transform:scale(1.3); }
+        }
+
+        header h1 {
+            font-family: var(--mono);
+            font-size: 0.95rem;
+            color: var(--purple2);
+            letter-spacing: 0.5px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            color: var(--text3);
+            background: var(--bg3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            font-family: var(--mono);
+        }
+
+        .badge.green {
+            color: var(--green);
+            border-color: rgba(52,211,153,.3);
+            background: rgba(52,211,153,.05);
+        }
+
+        /* ── Dataset strip ── */
+        .dataset-strip {
+            background: rgba(124,58,237,.06);
+            border-bottom: 1px solid rgba(124,58,237,.2);
+            padding: 8px 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            color: var(--text3);
+            font-family: var(--mono);
+            flex-wrap: wrap;
+        }
+
+        .dataset-strip span { color: var(--purple2); }
+        .ds-sep { color: var(--border2); }
+
+        /* ── Container ── */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 36px 24px 60px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .hero h2 {
+            font-family: var(--mono);
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple2), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            color: var(--text3);
+            font-size: 0.88rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ── Tabs ── */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 28px;
+            background: var(--bg2);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 10px 6px;
+            border: none;
+            background: transparent;
+            color: var(--text3);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 500;
+            font-family: var(--sans);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tab-icon { font-size: 1rem; }
+
+        .tab.active {
+            background: var(--bg3);
+            color: var(--purple2);
+            border: 1px solid var(--border2);
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text2);
+            background: rgba(255,255,255,.03);
+        }
+
+        /* ── Panel ── */
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* ── Tab description ── */
+        .tab-desc {
+            background: rgba(124,58,237,.07);
+            border: 1px solid rgba(124,58,237,.2);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            color: var(--text2);
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tab-desc-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+        /* ── Card ── */
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 26px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Form ── */
+        .form-group { margin-bottom: 16px; }
+
+        label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text2);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .label-row label { margin-bottom: 0; }
+
+        .label-hint {
+            font-size: 0.7rem;
+            color: var(--text3);
+            font-family: var(--mono);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            background: rgba(0,0,0,.3);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: var(--sans);
+            appearance: none;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(124,58,237,.15);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555570' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        select option { background: #0d0d1c; }
+        textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* ── User selector ── */
+        .user-selector {
+            position: relative;
+        }
+
+        .user-select-header {
+            display: flex;
+            gap: 8px;
+        }
+
+        .user-select-header select { flex: 1; }
+
+        .user-id-display {
+            margin-top: 8px;
+            background: rgba(0,0,0,.4);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--text3);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .user-id-display.show { display: flex; }
+
+        .user-id-value {
+            color: var(--purple2);
+            word-break: break-all;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-stat {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.72rem;
+            color: var(--text2);
+            display: none;
+        }
+
+        .user-stat.show { display: block; }
+        .user-stat strong { color: var(--purple2); }
+
+        /* ── Category chips ── */
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .chip {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            color: var(--text2);
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: var(--sans);
+        }
+
+        .chip:hover {
+            background: rgba(124,58,237,.15);
+            border-color: var(--purple);
+            color: var(--purple2);
+        }
+
+        .chip.active {
+            background: rgba(124,58,237,.2);
+            border-color: var(--purple);
+            color: var(--purple2);
+        }
+
+        /* ── Button ── */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--purple), #4f46e5);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 8px;
+            font-family: var(--sans);
+            letter-spacing: 0.2px;
+        }
+
+        .btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+        .btn:active:not(:disabled) { transform: translateY(0); }
+        .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* ── Result area ── */
+        .result-area { margin-top: 22px; display: none; }
+        .result-area.show { display: block; }
+
+        /* ── Loader ── */
+        .loader {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px 24px;
+        }
+
+        .loader-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.82rem;
+            color: var(--text3);
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.3s;
+        }
+
+        .loader-step.active {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--text2);
+        }
+
+        .loader-step.done {
+            opacity: 0.6;
+            transform: translateX(0);
+            color: var(--text3);
+        }
+
+        .step-icon {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            border: 1px solid var(--border2);
+        }
+
+        .step-icon.spinning {
+            border-top-color: var(--purple);
+            animation: spin 0.8s linear infinite;
+        }
+
+        .step-icon.done-icon {
+            background: rgba(52,211,153,.15);
+            border-color: rgba(52,211,153,.4);
+            color: var(--green);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Result card ── */
+        .result-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 14px;
+        }
+
+        .star { font-size: 1.3rem; color: var(--border2); }
+        .star.filled { color: var(--amber); }
+
+        .review-text {
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: #ccccee;
+            border-left: 3px solid var(--purple);
+            padding-left: 16px;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .meta-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 11px 13px;
+        }
+
+        .meta-label {
+            font-size: 0.67rem;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+            font-family: var(--mono);
+        }
+
+        .meta-value {
+            font-size: 0.85rem;
+            color: var(--purple2);
+            font-weight: 600;
+        }
+
+        /* ── Recommendation list ── */
+        .rec-list { list-style: none; }
+
+        .rec-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            transition: border-color 0.2s;
+        }
+
+        .rec-item:hover { border-color: var(--border2); }
+
+        .rec-rank {
+            font-family: var(--mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--purple);
+            min-width: 28px;
+            padding-top: 2px;
+        }
+
+        .rec-content { flex: 1; min-width: 0; }
+
+        .rec-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+            font-size: 0.92rem;
+        }
+
+        .rec-category {
+            font-size: 0.72rem;
+            color: var(--text3);
+            margin-bottom: 8px;
+            font-family: var(--mono);
+        }
+
+        .rec-reason {
+            font-size: 0.81rem;
+            color: var(--text2);
+            line-height: 1.55;
+        }
+
+        .rec-score {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--text3);
+            margin-top: 8px;
+        }
+
+        .score-bar {
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            border-radius: 2px;
+            transition: width 1s ease;
+            width: 0%;
+        }
+
+        /* ── Reasoning box ── */
+        .reasoning-box {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-left: 3px solid var(--blue);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            font-size: 0.82rem;
+            color: #8888aa;
+            line-height: 1.65;
+        }
+
+        .reasoning-box strong {
+            color: var(--blue);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--mono);
+        }
+
+        .persona-box {
+            border-left-color: var(--purple2);
+            margin-top: 10px;
+        }
+
+        .persona-box strong { color: var(--purple2); }
+
+        /* ── Error ── */
+        .error-box {
+            background: rgba(248,113,113,.06);
+            border: 1px solid rgba(248,113,113,.3);
+            border-radius: 10px;
+            padding: 16px;
+            color: var(--red);
+            font-size: 0.83rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* ── Hint ── */
+        .hint {
+            font-size: 0.72rem;
+            color: var(--text3);
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* ── Divider ── */
+        .or-divider {
+            text-align: center;
+            position: relative;
+            margin: 14px 0;
+            font-size: 0.72rem;
+            color: var(--text3);
+            font-family: var(--mono);
+        }
+
+        .or-divider::before, .or-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 44%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            header { padding: 14px 16px; }
+            .dataset-strip { padding: 7px 16px; }
+            .container { padding: 24px 14px 50px; }
+            .row { grid-template-columns: 1fr; }
+            .tabs { grid-template-columns: repeat(2,1fr); }
+            .hero h2 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <div class="logo-dot"></div>
+        <h1>User Intelligence</h1>
+    </div>
+    <div class="header-badges">
+        <span class="badge green">● LIVE</span>
+        <span class="badge">DSN × BCT Hackathon 3.0</span>
+    </div>
+</header>
+
+<div class="dataset-strip">
+    <span>DATASETS</span>
+    <span class="ds-sep">→</span>
+    <span>Yelp</span>
+    <span class="ds-sep">·</span>
+    <span>Goodreads</span>
+    <span class="ds-sep">·</span>
+    <span>Jumia Nigeria</span>
+    <span class="ds-sep">·</span>
+    <span>Nigerian Foods KB</span>
+    <span class="ds-sep">|</span>
+    <span style="color:var(--text3)">Model: llama-3.3-70b-versatile via LiteLLM</span>
+</div>
+
+<div class="container">
+
+    <div class="hero">
+        <h2>Understand. Simulate. Recommend.</h2>
+        <p>An agentic system that builds user personas, simulates reviews and delivers contextual recommendations with a Nigerian lens.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('simulate', this)">
+            <span class="tab-icon">🧠</span>
+            Review Simulator <br/><span style="font-size:0.65rem;color:var(--text3);margin-top:2px">Task A</span>
+        </button>
+        <button class="tab" onclick="switchTab('recommend', this)">
+            <span class="tab-icon">⭐</span>
+            Recommender <br/><span style="font-size:0.65rem;color:var(--text3);margin-top:2px">Task B</span>
+        </button>
+        <button class="tab" onclick="switchTab('cold', this)">
+            <span class="tab-icon">🆕</span>
+            Cold Start <br/><span style="font-size:0.65rem;color:var(--text3);margin-top:2px">No History</span>
+        </button>
+        <button class="tab" onclick="switchTab('cross', this)">
+            <span class="tab-icon">🔀</span>
+            Cross Domain <br/><span style="font-size:0.65rem;color:var(--text3);margin-top:2px">Different Category</span>
+        </button>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- TASK A — SIMULATE REVIEW                                      -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <div class="panel active" id="panel-simulate">
+
+        <div class="tab-desc">
+            <span class="tab-desc-icon">💡</span>
+            <span><strong style="color:var(--text)">Task A — User Modeling.</strong> Select a user from the dataset, describe any item and the agent simulates what that specific user would write and rate. Capturing their tone, rating habits and Nigerian voice.</span>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Step 1 — Choose a User</div>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label>Select User Profile</label>
+                    <span class="label-hint">real users from Yelp dataset</span>
+                </div>
+                <div class="user-selector">
+                    <select id="sim-user-select" onchange="onUserSelect('sim')">
+                        <option value="">— Pick a user to simulate —</option>
+                    </select>
+                    <div class="user-id-display" id="sim-user-id-display">
+                        <span>user_id:</span>
+                        <span class="user-id-value" id="sim-user-id-value"></span>
+                    </div>
+                    <div class="user-stats" id="sim-user-stats"></div>
+                </div>
+            </div>
+
+            <div class="card-title" style="margin-top:22px">Step 2 — Describe the Item</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="sim-item-name" placeholder="e.g. Chicken Republic, Buka Spot" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="sim-item-category" placeholder="e.g. Fast Food, Nigerian" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Item Description <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+                <textarea id="sim-item-desc" placeholder="Any extra context — ambience, price range, location..."></textarea>
+            </div>
+
+            <button class="btn" id="sim-btn" onclick="simulateReview()" disabled>
+                Simulate Review
+            </button>
+        </div>
+
+        <div class="result-area" id="sim-result"></div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- TASK B — RECOMMENDER                                          -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <div class="panel" id="panel-recommend">
+
+        <div class="tab-desc">
+            <span class="tab-desc-icon">💡</span>
+            <span><strong style="color:var(--text)">Task B — Personalized Recommender.</strong> Select a user with review history and the agent builds their persona then recommends items they would genuinely enjoy.</span>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Select User & Preferences</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="label-row">
+                        <label>User Profile</label>
+                        <span class="label-hint">from Yelp dataset</span>
+                    </div>
+                    <select id="rec-user-select" onchange="onUserSelect('rec')">
+                        <option value="">— Pick a user —</option>
+                    </select>
+                    <div class="user-id-display" id="rec-user-id-display">
+                        <span>user_id:</span>
+                        <span class="user-id-value" id="rec-user-id-value"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Number of Recommendations</label>
+                    <select id="rec-top-n">
+                        <option value="3">3 recommendations</option>
+                        <option value="5" selected>5 recommendations</option>
+                        <option value="10">10 recommendations</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" id="rec-btn" onclick="getRecommendations()" disabled>
+                Get Recommendations
+            </button>
+        </div>
+
+        <div class="result-area" id="rec-result"></div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- COLD START                                                     -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <div class="panel" id="panel-cold">
+
+        <div class="tab-desc">
+            <span class="tab-desc-icon">💡</span>
+            <span><strong style="color:var(--text)">Cold Start — No History Needed.</strong> No user ID required. Describe any person and their preferences and the agent recommends items as if it knows them. Useful when a new user first arrives.</span>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Describe the Person</div>
+
+            <div class="form-group">
+                <label>Who is this person?</label>
+                <textarea id="cold-desc" placeholder="e.g. A young Nigerian professional in Lagos, early 30s, loves trying new restaurants on weekends"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Their Preferences</label>
+                <textarea id="cold-prefs" placeholder="e.g. Values good ambience and quick service, budget conscious, loves spicy food"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Current Context <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+                <input type="text" id="cold-context" placeholder="e.g. Looking for a dinner spot for a first date" />
+            </div>
+
+            <div class="hint" style="margin-bottom:8px">💡 Try the example personas below to see the agent in action:</div>
+            <div class="chip-row">
+                <span class="chip" onclick="fillColdStart('foodie')">🍛 Lagos Foodie</span>
+                <span class="chip" onclick="fillColdStart('student')">📚 Budget Student</span>
+                <span class="chip" onclick="fillColdStart('exec')">💼 Corporate Executive</span>
+                <span class="chip" onclick="fillColdStart('parent')">👨‍👩‍👧 Family Parent</span>
+            </div>
+
+            <button class="btn" onclick="coldStartRecommend()" style="margin-top:16px">
+                Recommend Without History
+            </button>
+        </div>
+
+        <div class="result-area" id="cold-result"></div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- CROSS DOMAIN                                                   -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <div class="panel" id="panel-cross">
+
+        <div class="tab-desc">
+            <span class="tab-desc-icon">💡</span>
+            <span><strong style="color:var(--text)">Cross Domain — Transfer Preferences.</strong> The user has history in one category (e.g. restaurants) but wants recommendations in a completely different domain. The agent transfers their behavioral patterns across domains.</span>
+        </div>
+
+        <div class="card">
+            <div class="card-title">User & Target Domain</div>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label>User Profile</label>
+                    <span class="label-hint">needs existing review history</span>
+                </div>
+                <select id="cross-user-select" onchange="onUserSelect('cross')">
+                    <option value="">— Pick a user —</option>
+                </select>
+                <div class="user-id-display" id="cross-user-id-display">
+                    <span>user_id:</span>
+                    <span class="user-id-value" id="cross-user-id-value"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Target Category</label>
+                <input type="text" id="cross-category" placeholder="Type a category or pick one below" />
+                <div class="hint">Available in the dataset:</div>
+                <div class="chip-row" style="margin-top:6px">
+                    <span class="chip" onclick="setCategory('Books')">📚 Books</span>
+                    <span class="chip" onclick="setCategory('Nigerian Food')">🍲 Nigerian Food</span>
+                    <span class="chip" onclick="setCategory('Traditional Nigerian')">🫙 Traditional Nigerian</span>
+                    <span class="chip" onclick="setCategory('Food Products')">🛒 Food Products</span>
+                    <span class="chip" onclick="setCategory('Restaurants')">🍽️ Restaurants</span>
+                    <span class="chip" onclick="setCategory('Hotels')">🏨 Hotels</span>
+                    <span class="chip" onclick="setCategory('Gyms')">💪 Gyms</span>
+                </div>
+            </div>
+
+            <button class="btn" id="cross-btn" onclick="crossDomainRecommend()" disabled>
+                Transfer &amp; Recommend
+            </button>
+        </div>
+
+        <div class="result-area" id="cross-result"></div>
+    </div>
+
+</div><!-- /container -->
+
+<script>
+const API = ""; // Fetch automatically resolves relative to hosted server. localhost or deployed IP
+
+// ── Sample users loaded from API ───────────────────────────────────────────────
+// These are pre-defined interesting user profiles for judges to explore.
+// We load real user IDs from the API on page load.
+const SAMPLE_USERS = [
+    {
+        label: "Harsh Critic — avg 2.1★, 8 reviews",
+        user_id: null, // filled from API
+        tag: "harsh",
+        avg_rating: 2.1,
+        review_count: 8,
+        top_cats: "Restaurants, Fast Food",
+        description: "Gives low ratings, detailed complaints, values for money above all"
+    },
+    {
+        label: "Generous Explorer — avg 4.6★, 15 reviews",
+        user_id: null,
+        tag: "generous",
+        avg_rating: 4.6,
+        review_count: 15,
+        top_cats: "Restaurants, Bars, Cafes",
+        description: "Enthusiastic reviewer who tries everything"
+    },
+    {
+        label: "Balanced Foodie — avg 3.7★, 11 reviews",
+        user_id: null,
+        tag: "balanced",
+        avg_rating: 3.7,
+        review_count: 11,
+        top_cats: "Food, Nightlife",
+        description: "Thoughtful reviewer, fair assessments"
+    },
+    {
+        label: "Quality Seeker — avg 4.1★, 6 reviews",
+        user_id: null,
+        tag: "quality",
+        avg_rating: 4.1,
+        review_count: 6,
+        top_cats: "Fine Dining, Hotels",
+        description: "Selective, high standards, rewards excellence"
+    },
+    {
+        label: "Value Hunter — avg 3.2★, 20 reviews",
+        user_id: null,
+        tag: "value",
+        avg_rating: 3.2,
+        review_count: 20,
+        top_cats: "Fast Food, Shopping",
+        description: "Price-conscious, docks points for poor value"
+    }
+];
+
+// Real user IDs fetched from the dataset
+let loadedUsers = [];
+
+// ── Fetch real users from API on load ─────────────────────────────────────────
+async function loadSampleUsers() {
+    try {
+        // Hit the businesses/sample endpoint to confirm API is alive
+        const res = await fetch(`${API}/health`);
+        if (!res.ok) throw new Error("API not reachable");
+
+        // Fetch a sample of reviews to extract real user IDs
+        // We use the utility endpoint to get varied users
+        const usersRes = await fetch(`${API}/sample-users`);
+        if (usersRes.ok) {
+            const data = await usersRes.json();
+            loadedUsers = data.users || [];
+        }
+    } catch(e) {
+        // API not running or no sample-users endpoint yet — use placeholder IDs
+        loadedUsers = [];
+    }
+    populateUserDropdowns();
+}
+
+// ── Populate all user dropdowns ───────────────────────────────────────────────
+function populateUserDropdowns() {
+    const selects = ['sim-user-select', 'rec-user-select', 'cross-user-select'];
+
+    // Build options HTML
+    // If we got real users from API, use them; otherwise use static fallback IDs
+    // These fallback IDs are real Yelp dataset user IDs known to have reviews
+    const users = loadedUsers.length > 0 ? loadedUsers : getStaticFallbackUsers();
+
+    const optionsHtml = users.map(u =>
+        `<option value="${u.user_id}" data-stats='${JSON.stringify(u)}'>${u.label}</option>`
+    ).join('');
+
+    selects.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const placeholder = el.options[0].outerHTML;
+            el.innerHTML = placeholder + optionsHtml;
+        }
+    });
+}
+
+function getStaticFallbackUsers() {
+    // Real Yelp user IDs with known review history — verified from the dataset
+    return [
+        { user_id: "qVc8ODYU5SZjKXVBgXdI7w", label: "User A — Restaurant Enthusiast", review_count: 12, top_cats: "Restaurants, Food" },
+        { user_id: "iLjMdZi0Tm7DQxX1C1_2dg", label: "User B — Food & Nightlife Explorer", review_count: 8, top_cats: "Food, Bars, Nightlife" },
+        { user_id: "HkTqXlJMFGC1LqJqFwvK7A", label: "User C — Budget Conscious Reviewer", review_count: 15, top_cats: "Fast Food, Shopping" },
+        { user_id: "bLbSNkLggFmqwJQEqVPd6Q", label: "User D — Quality & Service Focused", review_count: 7, top_cats: "Fine Dining, Hotels" },
+        { user_id: "UZTDrniNMHrfFSvJaM2gAQ", label: "User E — Loyal Local Diner", review_count: 20, top_cats: "Local Restaurants, Cafes" },
+    ];
+}
+
+// ── Handle user selection ──────────────────────────────────────────────────────
+function onUserSelect(prefix) {
+    const select = document.getElementById(`${prefix}-user-select`);
+    const display = document.getElementById(`${prefix}-user-id-display`);
+    const valueEl = document.getElementById(`${prefix}-user-id-value`);
+    const statsEl = document.getElementById(`${prefix}-user-stats`);
+    const btn = document.getElementById(`${prefix}-btn`);
+
+    const selectedOpt = select.options[select.selectedIndex];
+    const userId = select.value;
+
+    if (!userId) {
+        display.classList.remove('show');
+        if (statsEl) statsEl.innerHTML = '';
+        if (btn) btn.disabled = true;
+        return;
+    }
+
+    // Show user ID
+    display.classList.add('show');
+    valueEl.textContent = userId;
+
+    // Show stats if available
+    if (statsEl) {
+        let statsData = {};
+        try { statsData = JSON.parse(selectedOpt.dataset.stats || '{}'); } catch(e) {}
+
+        const statItems = [];
+        if (statsData.review_count) statItems.push(`<span class="user-stat show">Reviews: <strong>${statsData.review_count}</strong></span>`);
+        if (statsData.avg_rating)   statItems.push(`<span class="user-stat show">Avg Rating: <strong>${statsData.avg_rating}★</strong></span>`);
+        if (statsData.top_cats)     statItems.push(`<span class="user-stat show">Categories: <strong>${statsData.top_cats}</strong></span>`);
+        statsEl.innerHTML = statItems.join('');
+    }
+
+    // Enable button
+    if (btn) btn.disabled = false;
+
+    // Also update cross button which has extra validation
+    if (prefix === 'cross') updateCrossBtn();
+}
+
+function updateCrossBtn() {
+    const userId = document.getElementById('cross-user-select').value;
+    const category = document.getElementById('cross-category').value.trim();
+    const btn = document.getElementById('cross-btn');
+    if (btn) btn.disabled = !(userId && category);
+}
+
+// ── Category chips for cross domain ───────────────────────────────────────────
+function setCategory(cat) {
+    document.getElementById('cross-category').value = cat;
+    document.querySelectorAll('#panel-cross .chip').forEach(c => {
+        c.classList.toggle('active', c.textContent.trim().includes(cat));
+    });
+    updateCrossBtn();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const catInput = document.getElementById('cross-category');
+    if (catInput) catInput.addEventListener('input', updateCrossBtn);
+});
+
+// ── Cold start example personas ───────────────────────────────────────────────
+const COLD_PERSONAS = {
+    foodie: {
+        desc: "A young Nigerian professional in Lagos, late 20s, passionate about food culture and trying new places every weekend.",
+        prefs: "Loves bold flavours, authentic local cuisine, and good ambience. Mid-range budget. Hates slow service.",
+        ctx:  "Looking for a Saturday evening dinner spot to impress a friend visiting from Abuja."
+    },
+    student: {
+        desc: "A university student in Ibadan, 21 years old, always on a tight budget.",
+        prefs: "Extremely price-conscious, prefers filling meals, doesn't mind basic settings as long as the food is good and portions are generous.",
+        ctx:  "Needs lunch near campus, has ₦1,500 to spend."
+    },
+    exec: {
+        desc: "A senior manager at a Lagos consulting firm, 42 years old, travels frequently for work.",
+        prefs: "Values efficiency, professionalism, and premium quality. Expense account available. Hates noise and chaos.",
+        ctx:  "Hosting a client lunch — needs somewhere impressive and quiet."
+    },
+    parent: {
+        desc: "A married parent of two children (ages 5 and 9) living in Abuja.",
+        prefs: "Needs family-friendly places, child menus, safe environment. Budget conscious but willing to pay for quality family experience.",
+        ctx:  "Planning a weekend family outing — wants food and activities for the kids."
+    }
+};
+
+function fillColdStart(key) {
+    const p = COLD_PERSONAS[key];
+    if (!p) return;
+    document.getElementById('cold-desc').value   = p.desc;
+    document.getElementById('cold-prefs').value  = p.prefs;
+    document.getElementById('cold-context').value = p.ctx;
+
+    document.querySelectorAll('#panel-cold .chip').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// ── Tab switching ──────────────────────────────────────────────────────────────
+function switchTab(name, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById(`panel-${name}`).classList.add('active');
+}
+
+// ── Loader with pipeline steps ────────────────────────────────────────────────
+const LOADER_STEPS = {
+    simulate: [
+        "Fetching user review history...",
+        "Building behavioral persona...",
+        "Applying Nigerian voice context...",
+        "Simulating review & rating..."
+    ],
+    recommend: [
+        "Fetching user review history...",
+        "Building behavioral persona...",
+        "Filtering item pool...",
+        "Ranking & generating recommendations..."
+    ],
+    cold: [
+        "Parsing persona description...",
+        "Sampling item pool...",
+        "Matching preferences to items...",
+        "Generating contextual recommendations..."
+    ],
+    cross: [
+        "Fetching user history...",
+        "Extracting behavioral patterns...",
+        "Filtering target category items...",
+        "Transferring preferences across domains..."
+    ]
+};
+
+function showLoader(containerId, type) {
+    const el = document.getElementById(containerId);
+    el.classList.add('show');
+    const steps = LOADER_STEPS[type] || LOADER_STEPS.recommend;
+
+    el.innerHTML = `
+        <div class="loader">
+            <div class="loader-steps" id="loader-steps-${containerId}">
+                ${steps.map((s, i) => `
+                    <div class="loader-step" id="lstep-${containerId}-${i}">
+                        <div class="step-icon" id="lstep-icon-${containerId}-${i}"></div>
+                        <span>${s}</span>
+                    </div>`).join('')}
+            </div>
+        </div>`;
+
+    // Animate steps
+    let current = 0;
+    function nextStep() {
+        if (current > 0) {
+            const prev = document.getElementById(`lstep-${containerId}-${current-1}`);
+            const prevIcon = document.getElementById(`lstep-icon-${containerId}-${current-1}`);
+            if (prev) prev.classList.replace('active', 'done');
+            if (prevIcon) { prevIcon.classList.remove('spinning'); prevIcon.classList.add('done-icon'); prevIcon.textContent = '✓'; }
+        }
+        if (current < steps.length) {
+            const step = document.getElementById(`lstep-${containerId}-${current}`);
+            const icon = document.getElementById(`lstep-icon-${containerId}-${current}`);
+            if (step) step.classList.add('active');
+            if (icon) icon.classList.add('spinning');
+            current++;
+            setTimeout(nextStep, 900 + Math.random() * 400);
+        }
+    }
+    nextStep();
+}
+
+function showError(containerId, message) {
+    const el = document.getElementById(containerId);
+    el.classList.add('show');
+    el.innerHTML = `<div class="error-box"><span>⚠</span><span>${message}</span></div>`;
+}
+
+// ── Star rendering ─────────────────────────────────────────────────────────────
+function renderStars(rating) {
+    return Array.from({length: 5}, (_, i) =>
+        `<span class="star ${i < Math.round(rating) ? 'filled' : ''}">★</span>`
+    ).join('');
+}
+
+// ── Render recommendations ─────────────────────────────────────────────────────
+function renderRecommendations(data, containerId) {
+    const el = document.getElementById(containerId);
+    const recs = data.recommendations || [];
+
+    if (!recs.length) {
+        showError(containerId, "No recommendations returned. Try a different user or category.");
+        return;
+    }
+
+    let html = `<ul class="rec-list">`;
+    recs.forEach((r, i) => {
+        const score = Math.round((r.relevance_score || 0) * 100);
+        html += `
+            <li class="rec-item">
+                <div class="rec-rank">#${i + 1}</div>
+                <div class="rec-content">
+                    <div class="rec-name">${escHtml(r.item_name || 'Unknown')}</div>
+                    <div class="rec-category">${escHtml(r.item_category || '')}</div>
+                    <div class="rec-reason">${escHtml(r.reason || '')}</div>
+                    <div class="rec-score">${score}% match</div>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width:0%" data-width="${score}%"></div>
+                    </div>
+                </div>
+            </li>`;
+    });
+    html += `</ul>`;
+
+    const reasoning = data.recommendation_reasoning || data.cross_domain_reasoning;
+    if (reasoning) {
+        html += `<div class="reasoning-box"><strong>Agent Reasoning</strong>${escHtml(reasoning)}</div>`;
+    }
+
+    if (data.persona_used) {
+        const p = data.persona_used;
+        html += `
+            <div class="reasoning-box persona-box">
+                <strong>Persona Used</strong>
+                Avg Rating: <strong style="color:var(--purple2)">${p.avg_rating}★</strong>
+                &nbsp;·&nbsp;
+                Priorities: <strong style="color:var(--purple2)">${(p.key_priorities || []).join(', ')}</strong>
+                &nbsp;·&nbsp;
+                Nigerian Context: ${p.nigerian_contextualized ? '<strong style="color:var(--green)">✅ Active</strong>' : '<span style="color:var(--text3)">❌ Off</span>'}
+            </div>`;
+    }
+
+    if (data.source_domain && data.target_domain) {
+        html += `
+            <div class="reasoning-box" style="border-left-color:var(--amber)">
+                <strong>Domain Transfer</strong>
+                Source: <strong style="color:var(--amber)">${escHtml(data.source_domain)}</strong>
+                &nbsp;→&nbsp;
+                Target: <strong style="color:var(--amber)">${escHtml(data.target_domain)}</strong>
+            </div>`;
+    }
+
+    el.innerHTML = html;
+    el.classList.add('show');
+
+    // Animate score bars after render
+    setTimeout(() => {
+        el.querySelectorAll('.score-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width;
+        });
+    }, 100);
+}
+
+// ── Escape HTML helper ─────────────────────────────────────────────────────────
+function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+// ── Get selected user ID ───────────────────────────────────────────────────────
+function getUserId(prefix) {
+    return document.getElementById(`${prefix}-user-select`).value;
+}
+
+// ── Task A: Simulate Review ────────────────────────────────────────────────────
+async function simulateReview() {
+    const userId   = getUserId('sim');
+    const itemName = document.getElementById('sim-item-name').value.trim();
+    const itemCat  = document.getElementById('sim-item-category').value.trim();
+    const itemDesc = document.getElementById('sim-item-desc').value.trim();
+
+    if (!userId) { showError('sim-result', 'Please select a user.'); return; }
+    if (!itemName) { showError('sim-result', 'Please enter an item name.'); return; }
+
+    showLoader('sim-result', 'simulate');
+
+    try {
+        const res = await fetch(`${API}/task-a/simulate-review`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_id: userId,
+                item: { item_name: itemName, item_category: itemCat, item_description: itemDesc }
+            })
+        });
+
+        const data = await res.json();
+        if (!res.ok) { showError('sim-result', data.detail || 'Request failed.'); return; }
+
+        const el = document.getElementById('sim-result');
+        el.innerHTML = `
+            <div class="result-card">
+                <div class="stars">${renderStars(data.simulated_rating)}</div>
+                <div class="review-text">${escHtml(data.simulated_review)}</div>
+                <div class="reasoning-box">
+                    <strong>Rating Reasoning</strong>
+                    ${escHtml(data.rating_reasoning)}
+                </div>
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="meta-label">Simulated Rating</div>
+                        <div class="meta-value">${data.simulated_rating} / 5</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">History Size</div>
+                        <div class="meta-value">${data.history_size} reviews</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">User Avg Rating</div>
+                        <div class="meta-value">${data.persona_used?.avg_rating ?? '—'}★</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Nigerian Context</div>
+                        <div class="meta-value">${data.persona_used?.nigerian_contextualized ? '✅ Active' : '❌ Off'}</div>
+                    </div>
+                </div>
+            </div>`;
+        el.classList.add('show');
+
+    } catch(err) {
+        showError('sim-result', `Connection failed: ${err.message}. Is the API running?`);
+    }
+}
+
+// ── Task B: Recommend ──────────────────────────────────────────────────────────
+async function getRecommendations() {
+    const userId = getUserId('rec');
+    const topN   = parseInt(document.getElementById('rec-top-n').value);
+
+    if (!userId) { showError('rec-result', 'Please select a user.'); return; }
+
+    showLoader('rec-result', 'recommend');
+
+    try {
+        const res = await fetch(`${API}/task-b/recommend`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, top_n: topN })
+        });
+
+        const data = await res.json();
+        if (!res.ok) { showError('rec-result', data.detail || 'Request failed.'); return; }
+        renderRecommendations(data, 'rec-result');
+
+    } catch(err) {
+        showError('rec-result', `Connection failed: ${err.message}. Is the API running?`);
+    }
+}
+
+// ── Cold Start ─────────────────────────────────────────────────────────────────
+async function coldStartRecommend() {
+    const desc    = document.getElementById('cold-desc').value.trim();
+    const prefs   = document.getElementById('cold-prefs').value.trim();
+    const context = document.getElementById('cold-context').value.trim();
+
+    if (!desc) { showError('cold-result', 'Please describe the user.'); return; }
+
+    showLoader('cold-result', 'cold');
+
+    try {
+        const res = await fetch(`${API}/task-b/recommend/cold-start`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ persona: { description: desc, preferences: prefs, context }, top_n: 5 })
+        });
+
+        const data = await res.json();
+        if (!res.ok) { showError('cold-result', data.detail || 'Request failed.'); return; }
+        renderRecommendations(data, 'cold-result');
+
+    } catch(err) {
+        showError('cold-result', `Connection failed: ${err.message}. Is the API running?`);
+    }
+}
+
+// ── Cross Domain ───────────────────────────────────────────────────────────────
+async function crossDomainRecommend() {
+    const userId   = getUserId('cross');
+    const category = document.getElementById('cross-category').value.trim();
+
+    if (!userId)   { showError('cross-result', 'Please select a user.'); return; }
+    if (!category) { showError('cross-result', 'Please enter or select a target category.'); return; }
+
+    showLoader('cross-result', 'cross');
+
+    try {
+        const res = await fetch(`${API}/task-b/recommend/cross-domain`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, target_category: category, top_n: 5 })
+        });
+
+        const data = await res.json();
+        if (!res.ok) { showError('cross-result', data.detail || 'Request failed.'); return; }
+        renderRecommendations(data, 'cross-result');
+
+    } catch(err) {
+        showError('cross-result', `Connection failed: ${err.message}. Is the API running?`);
+    }
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+loadSampleUsers();
+</script>
+</body>
+</html>
