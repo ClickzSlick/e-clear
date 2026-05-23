@@ -6,3 +6,6 @@ __pycache__/
 .DS_Store
 logs/
 schema.md
+Dockerfile
+.dockerignore
+docker.sh
