@@ -27,12 +27,11 @@ def serve_ui():
 # ── Data Loading ───────────────────────────────────────────────────────────────
 # Load dataset once at startup so every request doesn't reload from disk
 
-#DATA_DIR = os.getenv("DATA_DIR", "./data")
-DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))
+# DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))
+DATA_DIR = Path(os.getenv("DATA_DIR", "./data/dataset"))
 
 print("Loading Yelp dataset into memory...")
 try:
-    # BUSINESSES, USERS, REVIEWS = normalize_yelp(DATA_DIR)
 
     BUSINESSES_YELP, USERS, REVIEWS = normalize_yelp(DATA_DIR)
     BUSINESSES = load_all_businesses(DATA_DIR, BUSINESSES_YELP)
